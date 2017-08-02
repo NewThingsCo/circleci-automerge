@@ -41,15 +41,6 @@ if (!apiToken) {
         fetchParam
       ).then(putJson => {
         print(putJson.message)
-        if (putJson.merged) {
-          fetchParam.method = 'DELETE'
-          fetchParam.body = ''
-          // If merge was successful, delete branch
-          apiFetch(
-            `https://api.github.com/repos/LabOfNew/peeps/git/refs/heads/${branchName}`,
-            fetchParam
-          )
-        }
       })
     } else {
       print(`Aborting merge, unable to find PR for branch ${branchName}`)
