@@ -4,7 +4,6 @@ const apiFetch = (url, param) => fetch(url, param).then(res => res.json()).then(
 
 const apiToken = process.env.GH_TOKEN
 const branchName = process.env.CIRCLE_BRANCH
-const commitSha = process.env.CIRCLE_SHA1
 
 const print = msg => console.log(msg)
 
@@ -12,8 +11,6 @@ if (!apiToken) {
   print('GitHub API token variable ($GH_TOKEN) not defined, abort')
 } else if (!branchName) {
   print('Branch variable ($CIRCLE_BRANCH) not defined, abort')
-} else if (!commitSha) {
-  print('Commit SHA variable ($CIRCLE_SHA1) not defined, abort')
 } else if (branchName.startsWith('greenkeeper/')) {
   const fetchParam = {
     headers: {
@@ -26,7 +23,7 @@ if (!apiToken) {
     fetchParam
   ).then(json => {
     const pullRequest = json.find(request => {
-      if (request.head.ref === branchName && request.head.sha === commitSha) {
+      if (request.head.ref === branchName) {
         return true
       }
       return false
@@ -34,7 +31,7 @@ if (!apiToken) {
     if (pullRequest) {
       print(`Merge greenkeeper PR ${pullRequest.number}`)
       fetchParam.method = 'PUT'
-      fetchParam.body = JSON.stringify({sha: commitSha})
+      fetchParam.body = JSON.stringify({sha: pullRequest.head.sha})
       // Merge PR that this branch is part of
       apiFetch(
         `https://api.github.com/repos/LabOfNew/peeps/pulls/${pullRequest.number}/merge`,
