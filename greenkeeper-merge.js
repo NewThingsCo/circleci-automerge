@@ -43,4 +43,6 @@ if (!apiToken) {
       print(`Aborting merge, unable to find PR for branch ${branchName}`)
     }
   })
+} else {
+  print(`${branchName} not greenkeeper branch, skipping merge.`)
 }
