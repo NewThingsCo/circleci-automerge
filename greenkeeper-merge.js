@@ -4,6 +4,7 @@ const apiFetch = (url, param) => fetch(url, param).then(res => res.json()).then(
 
 const apiToken = process.env.GH_TOKEN
 const branchName = process.env.CIRCLE_BRANCH
+const shaCommit = process.env.CIRCLE_SHA1
 
 const print = msg => console.log(msg)
 
@@ -23,7 +24,7 @@ if (!apiToken) {
     fetchParam
   ).then(json => {
     const pullRequest = json.find(request => {
-      if (request.head.ref === branchName) {
+      if (request.head.ref === branchName && request.head.sha === shaCommit) {
         return true
       }
       return false
