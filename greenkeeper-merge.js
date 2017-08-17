@@ -24,7 +24,7 @@ if (!apiToken) {
     fetchParam
   ).then(json => {
     const pullRequest = json.find(request => {
-      if (request.head.ref === branchName && request.head.sha === shaCommit) {
+      if (request.head.ref === branchName && request.head.sha.startsWith(shaCommit)) {
         return true
       }
       return false
