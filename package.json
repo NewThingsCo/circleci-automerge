@@ -1,0 +1,27 @@
+{
+  "name": "circleci-automerge",
+  "version": "1.0.0",
+  "description": "Tool to auto merge git branches on Circle CI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NewThingsCo/circleci-automerge.git"
+  },
+  "keywords": [
+    "Circle CI",
+    "git",
+    "auto merge"
+  ],
+  "author": "New Things Co <info@newthings.co>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NewThingsCo/circleci-automerge/issues"
+  },
+  "homepage": "https://github.com/NewThingsCo/circleci-automerge#readme",
+  "dependencies": {
+    "node-fetch": "2.1.1"
+  }
+}
