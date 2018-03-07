@@ -20,7 +20,7 @@ jobs:
           command: sudo npm install -g greenkeeper-lockfile@1
       - run:
           name: Install dependencies
-          command: npm ci
+          command: npm install
       - run:
           name: Update package-lock.json
           command: greenkeeper-lockfile-update
