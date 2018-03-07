@@ -1,49 +1,50 @@
-import fetch from 'node-fetch'
+#!/usr/bin/env node
+const commander = require('commander')
+const gitHubApi = require('./gitHubApi')
 
-const apiFetch = (url, param) => fetch(url, param).then(res => res.json()).then(json => json)
+commander
+  .version('1.0.0', '-v, --version')
+  .option('-r, --repository <repository>', 'github repository in format "owner/repository"')
+  .option('-f, --filter <regexp>', 'regular expression to filter branches')
+  .parse(process.argv)
+
+const {repository, filter} = commander
 
 const apiToken = process.env.GH_TOKEN
 const branchName = process.env.CIRCLE_BRANCH
 const shaCommit = process.env.CIRCLE_SHA1
 
-const print = msg => console.log(msg)
-
 if (!apiToken) {
-  print('GitHub API token variable ($GH_TOKEN) not defined, abort')
-} else if (!branchName) {
-  print('Branch variable ($CIRCLE_BRANCH) not defined, abort')
-} else if (branchName.startsWith('greenkeeper/')) {
-  const fetchParam = {
-    headers: {
-      Authorization: `token ${apiToken}`
-    }
-  }
-  // Get open PRs for peeps
-  apiFetch(
-    'https://api.github.com/repos/LabOfNew/peeps/pulls?state=open',
-    fetchParam
-  ).then(json => {
-    const pullRequest = json.find(request => {
-      if (request.head.ref === branchName && request.head.sha.startsWith(shaCommit)) {
-        return true
-      }
-      return false
-    })
-    if (pullRequest) {
-      print(`Merge greenkeeper PR ${pullRequest.number}`)
-      fetchParam.method = 'PUT'
-      fetchParam.body = JSON.stringify({sha: pullRequest.head.sha})
-      // Merge PR that this branch is part of
-      apiFetch(
-        `https://api.github.com/repos/LabOfNew/peeps/pulls/${pullRequest.number}/merge`,
-        fetchParam
-      ).then(putJson => {
-        print(putJson.message)
-      })
-    } else {
-      print(`Aborting merge, unable to find PR for branch ${branchName}`)
-    }
-  })
-} else {
-  print(`${branchName} not greenkeeper branch, skipping merge.`)
+  console.error('GitHub API token variable ($GH_TOKEN) not defined, abort')
+  process.exit(1)
 }
+
+if (!branchName) {
+  console.error('Branch variable ($CIRCLE_BRANCH) not defined, abort')
+  process.exit(1)
+}
+
+if (!repository) {
+  console.log('--repository option is required but missing, abort')
+  process.exit(1)
+}
+
+if (filter && !branchName.match(filter)) {
+  console.log(`${branchName} branch does not match to filter ${filter}, skipping merge.`)
+  process.exit(0)
+}
+
+const {
+  fetchOpenPullRequests,
+  findCurrentPullRequest,
+  mergePullRequest
+} = gitHubApi(repository)
+
+fetchOpenPullRequests()
+  .then(findCurrentPullRequest)
+  .then(mergePullRequest)
+  .then(res => console.log(res.message))
+  .catch(error => {
+    console.error('Pull request merge failed unexpectedly:', error)
+    process.exit(1)
+  })
