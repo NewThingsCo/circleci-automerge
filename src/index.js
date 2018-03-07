@@ -4,7 +4,7 @@ const gitHubApi = require('./gitHubApi')
 
 commander
   .version('1.0.0', '-v, --version')
-  .option('-r, --repository <repository>', 'github repository in format "owner/repository"')
+  .option('-r, --repository <repository>', 'github repository in format "<owner>/<repo>"')
   .option('-f, --filter <regexp>', 'regular expression to filter branches')
   .parse(process.argv)
 
