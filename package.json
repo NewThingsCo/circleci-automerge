@@ -4,7 +4,7 @@
   "description": "Tool to auto merge GitHub pull request branches on Circle CI",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -12,6 +12,7 @@
   },
   "keywords": [
     "Circle CI",
+    "GitHub",
     "git",
     "auto merge"
   ],
@@ -24,5 +25,9 @@
   "dependencies": {
     "commander": "2.14.1",
     "node-fetch": "2.1.1"
+  },
+  "devDependencies": {
+    "jest": "22.4.2",
+    "nock": "9.2.3"
   }
 }
