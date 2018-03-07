@@ -1,3 +1,4 @@
+const chalk = require('chalk')
 const fetch = require('node-fetch')
 
 module.exports = repository => {
@@ -11,7 +12,7 @@ module.exports = repository => {
   }
 
   const fetchOpenPullRequests = () => {
-    console.log(`Fetch open pull request from repository ${repository}`)
+    console.log(chalk.cyan(`Fetch open pull request from repository ${repository}`))
     return fetch(`${baseUrl}/${repository}/pulls?state=open`, {headers})
       .then(res => {
         if (res.status !== 200) throw res.statusText
@@ -23,7 +24,7 @@ module.exports = repository => {
     const pullRequest = pullRequests.find(pr => pr.head.ref === branchName && pr.head.sha.startsWith(shaCommit))
   
     if (!pullRequest) {
-      console.error(`Aborting merge, unable to find pull request for branch ${branchName}`)
+      console.error(chalk.red(`Aborting merge, unable to find pull request for branch ${branchName}`))
       process.exit(1)
     }
   
@@ -31,7 +32,7 @@ module.exports = repository => {
   }
 
   const mergePullRequest = pr => {
-    console.log(`Merge pull request ${pr.number}`)
+    console.log(chalk.cyan(`Merge pull request ${pr.number}`))
     const params = {headers, method: 'PUT', body: JSON.stringify({sha: pr.head.sha})}
     return fetch(`${baseUrl}/${repository}/pulls/${pr.number}/merge`, params)
       .then(res => {
