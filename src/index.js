@@ -12,7 +12,6 @@ const {repository, filter} = commander
 
 const apiToken = process.env.GH_TOKEN
 const branchName = process.env.CIRCLE_BRANCH
-const shaCommit = process.env.CIRCLE_SHA1
 
 if (!apiToken) {
   console.error('GitHub API token variable ($GH_TOKEN) not defined, abort')
