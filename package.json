@@ -2,7 +2,13 @@
   "name": "circleci-automerge",
   "version": "1.0.0",
   "description": "Tool to auto merge GitHub pull request branches on Circle CI",
-  "main": "index.js",
+  "main": "./bin/index.js",
+  "bin": {
+    "circleci-automerge": "./bin/index.js"
+  },
+  "engines": {
+    "node": ">=6"
+  },
   "scripts": {
     "lint": "eslint src/*.js",
     "test": "jest"

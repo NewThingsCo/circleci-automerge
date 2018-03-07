@@ -1,5 +1,5 @@
 const nock = require('nock')
-const gitHubApi = require('./gitHubApi')
+const gitHubApi = require('../bin/gitHubApi')
 
 const repository = 'test/repository'
 const pullRequest1 = {number: 1, head: {sha: 'e07e589fbeb379', ref: 'test-branch'}}
