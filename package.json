@@ -1,7 +1,7 @@
 {
   "name": "circleci-automerge",
   "version": "1.0.0",
-  "description": "Tool to auto merge git branches on Circle CI",
+  "description": "Tool to auto merge GitHub pull request branches on Circle CI",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
