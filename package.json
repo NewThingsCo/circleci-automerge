@@ -10,7 +10,7 @@
     "node": ">=6"
   },
   "scripts": {
-    "lint": "eslint src/*.js",
+    "lint": "eslint bin/*.js tests/*.js",
     "test": "jest"
   },
   "repository": {
