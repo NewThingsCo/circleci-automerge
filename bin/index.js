@@ -1,48 +1,28 @@
 #!/usr/bin/env node --harmony
 const commander = require('commander')
 const chalk = require('chalk')
-const gitHubApi = require('./gitHubApi')
+const version = require('../package.json').version
+const mergePullRequest = require('./merge-pr')
 
 commander
-  .version('1.0.0', '-v, --version')
-  .option('-r, --repository <repository>', 'github repository in format "<owner>/<repo>"')
+  .version(version, '-v, --version')
   .option('-f, --filter <regexp>', 'regular expression to filter branches')
   .parse(process.argv)
 
-const {repository, filter} = commander
+const {filter} = commander
+const {GH_TOKEN, CIRCLE_BRANCH} = process.env
 
-const apiToken = process.env.GH_TOKEN
-const branchName = process.env.CIRCLE_BRANCH
-
-if (!apiToken) {
+if (!GH_TOKEN) {
   console.error(chalk.red('GitHub API token variable ($GH_TOKEN) not defined, abort'))
   process.exit(1)
 }
 
-if (!branchName) {
-  console.error(chalk.red('Branch variable ($CIRCLE_BRANCH) not defined, abort'))
-  process.exit(1)
-}
-
-if (!repository) {
-  console.log(chalk.red('--repository option is required but missing, abort'))
-  process.exit(1)
-}
-
-if (filter && !branchName.match(filter)) {
-  console.log(chalk.yellow(`${branchName} branch does not match to filter ${filter}, skipping merge.`))
+if (filter && !CIRCLE_BRANCH.match(filter)) {
+  console.log(chalk.yellow(`${CIRCLE_BRANCH} branch does not match to filter ${filter}, skipping merge.`))
   process.exit(0)
 }
 
-const {
-  fetchOpenPullRequests,
-  findCurrentPullRequest,
-  mergePullRequest
-} = gitHubApi(repository)
-
-fetchOpenPullRequests()
-  .then(findCurrentPullRequest)
-  .then(mergePullRequest)
+mergePullRequest()
   .then(res => console.log(chalk.green(res.message)))
   .catch(error => {
     console.error(chalk.red('Pull request merge failed unexpectedly:'), error)
