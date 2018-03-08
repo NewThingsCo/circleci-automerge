@@ -31,7 +31,7 @@
   "homepage": "https://github.com/NewThingsCo/circleci-automerge#readme",
   "dependencies": {
     "chalk": "2.3.2",
-    "commander": "2.14.1",
+    "commander": "2.15.0",
     "node-fetch": "2.1.1"
   },
   "devDependencies": {
