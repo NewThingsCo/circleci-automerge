@@ -2,6 +2,22 @@
   "name": "circleci-automerge",
   "version": "1.0.0",
   "description": "Tool to auto merge GitHub pull request branches on Circle CI",
+  "author": "New Things Co <info@newthings.co>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NewThingsCo/circleci-automerge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NewThingsCo/circleci-automerge/issues"
+  },
+  "homepage": "https://github.com/NewThingsCo/circleci-automerge#readme",
+  "keywords": [
+    "Circle CI",
+    "GitHub",
+    "git",
+    "auto merge"
+  ],
   "main": "./bin/index.js",
   "bin": {
     "circleci-automerge": "./bin/index.js"
@@ -11,24 +27,12 @@
   },
   "scripts": {
     "lint": "eslint bin/*.js tests/*.js",
-    "test": "jest"
+    "test": "jest",
+    "release": "npm version patch -m 'Release version %s'",
+    "preversion": "npm config set tag-version-prefix ''",
+    "version": "npm publish",
+    "postversion": "git push --tags"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/NewThingsCo/circleci-automerge.git"
-  },
-  "keywords": [
-    "Circle CI",
-    "GitHub",
-    "git",
-    "auto merge"
-  ],
-  "author": "New Things Co <info@newthings.co>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/NewThingsCo/circleci-automerge/issues"
-  },
-  "homepage": "https://github.com/NewThingsCo/circleci-automerge#readme",
   "dependencies": {
     "chalk": "2.3.2",
     "commander": "2.15.0",
