@@ -27,7 +27,9 @@ Tool to auto merge GitHub pull request branches on Circle CI
 
 ## Examples
 
-    circleci-automerge --repository="NewThingsCo/circleci-automerge" --filter="^greenkeeper/"
+Auto merge only branches that start with 'greenkeeper/'
+
+    circleci-automerge --filter="^greenkeeper/"
 
 # Development
 
