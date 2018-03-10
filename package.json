@@ -1,6 +1,6 @@
 {
   "name": "circleci-automerge",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tool to auto merge GitHub pull request branches on Circle CI",
   "author": "New Things Co <info@newthings.co>",
   "license": "MIT",
