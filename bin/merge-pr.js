@@ -5,10 +5,11 @@ module.exports = () => {
   const {
     GH_TOKEN: token,
     CIRCLE_SHA1: sha,
-    CIRCLE_PR_NUMBER: pr,
+    CIRCLE_PULL_REQUEST: prUrl,
     CIRCLE_PROJECT_USERNAME: user,
     CIRCLE_PROJECT_REPONAME: repo
   } = process.env
+  const prNumber = prUrl.split('/').pop()
 
   const method = 'PUT'
   const headers = {
@@ -22,6 +23,6 @@ module.exports = () => {
     return res.json()
   }
 
-  console.log(chalk.cyan(`Merge pull request ${pr}`))
-  return fetch(`https://api.github.com/repos/${user}/${repo}/pulls/${pr}/merge`, {method, headers, body}).then(parseResponse)
+  console.log(chalk.cyan(`Merge pull request ${prNumber}`))
+  return fetch(`https://api.github.com/repos/${user}/${repo}/pulls/${prNumber}/merge`, {method, headers, body}).then(parseResponse)
 }

@@ -3,7 +3,7 @@ const mergePullRequest = require('../bin/merge-pr')
 
 process.env.GH_TOKEN = '12345token'
 process.env.CIRCLE_SHA1 = 'e07e589fbeb379'
-process.env.CIRCLE_PR_NUMBER = 1,
+process.env.CIRCLE_PULL_REQUEST = 'https://github.com/NewThingsCo/circleci-automerge/pull/1',
 process.env.CIRCLE_PROJECT_USERNAME = 'NewThingsCo',
 process.env.CIRCLE_PROJECT_REPONAME = 'circleci-automerge'
 
