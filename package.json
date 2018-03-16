@@ -39,7 +39,7 @@
     "node-fetch": "2.1.1"
   },
   "devDependencies": {
-    "eslint": "4.18.2",
+    "eslint": "4.19.0",
     "jest": "22.4.2",
     "nock": "9.2.3"
   }
