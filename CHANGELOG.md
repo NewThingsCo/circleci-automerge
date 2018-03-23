@@ -1,3 +1,5 @@
+# v1.1.0 (2018-03-23):
+* Fallback to GitHub API if `CIRCLE_PULL_REQUEST` environment variable is not set
 # v1.0.2 (2018-03-10):
 * Parse pull request number from `CIRCLE_PULL_REQUEST` environment variable
 
