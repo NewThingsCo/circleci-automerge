@@ -38,3 +38,6 @@ Auto merge only branches that start with 'greenkeeper/'
 
 ## Lint
     npm run lint
+
+## Release
+    npm version [ major | minor | patch ] -m 'Release version %s'
