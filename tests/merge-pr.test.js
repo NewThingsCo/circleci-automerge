@@ -27,7 +27,7 @@ const testMergeRequest = function (uri, reqBody) {
 
 test('should merge given pull request', async () => {
   nock('https://api.github.com')
-    .put(`/repos/NewThingsCo/circleci-automerge/pulls/1/merge`)
+    .put('/repos/NewThingsCo/circleci-automerge/pulls/1/merge')
     .reply(200, testMergeRequest)
 
   const response = await mergePullRequest()
@@ -36,7 +36,7 @@ test('should merge given pull request', async () => {
 
 test('should handle service errors when merging pull request', async () => {
   nock('https://api.github.com')
-    .put(`/repos/NewThingsCo/circleci-automerge/pulls/1/merge`)
+    .put('/repos/NewThingsCo/circleci-automerge/pulls/1/merge')
     .reply(401, 'Unauthorized')
 
   try {
@@ -48,7 +48,7 @@ test('should handle service errors when merging pull request', async () => {
 
 test('should handle network errors when merging pull request', async () => {
   nock('https://api.github.com')
-    .put(`/repos/NewThingsCo/circleci-automerge/pulls/1/merge`)
+    .put('/repos/NewThingsCo/circleci-automerge/pulls/1/merge')
     .replyWithError('Unexpected error')
 
   try {
@@ -57,4 +57,19 @@ test('should handle network errors when merging pull request', async () => {
     expect(error.type).toEqual('system')
     expect(error.message).toEqual('request to https://api.github.com/repos/NewThingsCo/circleci-automerge/pulls/1/merge failed, reason: Unexpected error')
   }
+})
+
+test('should fallback to github api if CIRCLE_PULL_REQUEST not set', async () => {
+  delete process.env.CIRCLE_PULL_REQUEST
+
+  nock('https://api.github.com')
+    .get('/repos/NewThingsCo/circleci-automerge/pulls?state=open')
+    .reply(200, [{number: 1, head: {sha: 'e07e589fbeb379'}}])
+
+  nock('https://api.github.com')
+    .put('/repos/NewThingsCo/circleci-automerge/pulls/1/merge')
+    .reply(200, testMergeRequest)
+
+  const response = await mergePullRequest()
+  expect(response).toEqual({message: 'Pull Request successfully merged'})
 })
