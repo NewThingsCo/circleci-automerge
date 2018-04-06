@@ -28,8 +28,15 @@ module.exports = () => {
     return fetch(`${baseUrl}/${user}/${repo}/pulls?state=open`, {headers}).then(parseResponse)
   }
 
-  const findCurrentPullRequest = pullRequests =>
-    pullRequests.find(pullRequest => pullRequest.head.sha.startsWith(sha)).number // TODO
+  const findCurrentPullRequest = pullRequests => {
+    const pullRequest = pullRequests.find(pullRequest => pullRequest.head.sha.startsWith(sha))
+    if (!pullRequest || !pullRequest.number) {
+      console.error(chalk.red(`No pull request found with SHA ${sha}, abort.`))
+      process.exit(1)
+    }
+
+    return pullRequest.number
+  }
 
   const mergePullRequest = pullRequestNumber => {
     console.log(chalk.cyan(`Merge pull request ${pullRequestNumber}`))
