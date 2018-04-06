@@ -17,7 +17,7 @@ jobs:
           - v1-dependencies-
       - run:
           name: Install greenkeeper-lockfile
-          command: sudo npm install -g greenkeeper-lockfile@1 circleci-automerge
+          command: sudo npm install -g greenkeeper-lockfile@1
       - run:
           name: Install dependencies
           command: npm install
@@ -39,4 +39,4 @@ jobs:
           command: greenkeeper-lockfile-upload
       - run:
           name: Auto merge if greenkeeper branch
-          command: circleci-automerge --filter="^greenkeeper/"
+          command: node ./bin/index.js --filter="^greenkeeper/"
