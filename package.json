@@ -33,7 +33,7 @@
     "postversion": "git push --tags"
   },
   "dependencies": {
-    "chalk": "2.3.2",
+    "chalk": "2.4.0",
     "commander": "2.15.1",
     "node-fetch": "2.1.2"
   },
