@@ -29,7 +29,7 @@ module.exports = () => {
   }
 
   const findCurrentPullRequest = pullRequests => {
-    const pullRequest = pullRequests.find(pullRequest => pullRequest.head.sha.startsWith(sha))
+    const pullRequest = pullRequests.find(pr => pr.head.sha.startsWith(sha))
     if (!pullRequest || !pullRequest.number) {
       console.error(chalk.red(`No pull request found with SHA ${sha}, abort.`))
       process.exit(1)
