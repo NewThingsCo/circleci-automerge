@@ -30,7 +30,6 @@ module.exports = () => {
 
   const findCurrentPullRequest = pullRequests => {
     const pullRequest = pullRequests.find(pr => pr.head.sha.startsWith(sha))
-    console.log(pullRequests, pullRequest)
     if (!pullRequest || !pullRequest.number) {
       console.error(chalk.red(`No pull request found with SHA ${sha}, abort.`))
       process.exit(1)
@@ -50,6 +49,6 @@ module.exports = () => {
     return mergePullRequest(pullRequestNumber)
   } else {
     console.log(chalk.yellow('CIRCLE_PULL_REQUEST environment variable not set! Fallback to GitHub API.'))
-    return fetchOpenPullRequests().then(findCurrentPullRequest)
+    return fetchOpenPullRequests().then(findCurrentPullRequest).then(mergePullRequest)
   }
 }

@@ -29,8 +29,14 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run:
+          name: Lint
+          command: npm run lint
+      - run:
+          name: Test
+          command: npm test
+      - run:
           name: Commit package-lock.json
           command: greenkeeper-lockfile-upload
       - run:
           name: Auto merge if greenkeeper branch
-          command: node ./bin/index.js
+          command: node ./bin/index.js --filter="^greenkeeper/"
