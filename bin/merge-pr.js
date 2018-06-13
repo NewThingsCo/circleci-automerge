@@ -10,7 +10,6 @@ module.exports = () => {
     CIRCLE_PROJECT_REPONAME: repo
   } = process.env
 
-  const method = 'PUT'
   const baseUrl = 'https://api.github.com/repos'
   const headers = {
     Accept: 'application/vnd.github.v3+json',
@@ -25,7 +24,8 @@ module.exports = () => {
 
   const fetchOpenPullRequests = () => {
     console.log(chalk.cyan(`Fetch open pull request from repository ${user}/${repo}`))
-    return fetch(`${baseUrl}/${user}/${repo}/pulls?state=open`, {headers}).then(parseResponse)
+    const method = 'GET'
+    return fetch(`${baseUrl}/${user}/${repo}/pulls?state=open`, {method, headers}).then(parseResponse)
   }
 
   const findCurrentPullRequest = pullRequests => {
@@ -40,6 +40,7 @@ module.exports = () => {
 
   const mergePullRequest = pullRequestNumber => {
     console.log(chalk.cyan(`Merge pull request ${pullRequestNumber}`))
+    const method = 'PUT'
     return fetch(`${baseUrl}/${user}/${repo}/pulls/${pullRequestNumber}/merge`, {method, headers, body}).then(parseResponse)
   }
 
