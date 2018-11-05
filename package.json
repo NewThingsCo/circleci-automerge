@@ -35,7 +35,7 @@
   "dependencies": {
     "chalk": "2.4.1",
     "commander": "2.19.0",
-    "node-fetch": "2.1.2"
+    "node-fetch": "2.2.1"
   },
   "devDependencies": {
     "eslint": "5.0.1",
