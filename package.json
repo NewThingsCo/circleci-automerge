@@ -23,7 +23,7 @@
     "circleci-automerge": "./bin/index.js"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=10"
   },
   "scripts": {
     "lint": "eslint bin/*.js tests/*.js",
