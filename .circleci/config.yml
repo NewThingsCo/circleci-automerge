@@ -16,14 +16,8 @@ jobs:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
       - run:
-          name: Install greenkeeper-lockfile
-          command: sudo npm install -g greenkeeper-lockfile@1
-      - run:
           name: Install dependencies
           command: npm install
-      - run:
-          name: Update package-lock.json
-          command: greenkeeper-lockfile-update
       - save_cache:
           paths:
             - node_modules
@@ -34,9 +28,6 @@ jobs:
       - run:
           name: Test
           command: npm test
-      - run:
-          name: Commit package-lock.json
-          command: greenkeeper-lockfile-upload
       - run:
           name: Auto merge if greenkeeper branch
           command: node ./bin/index.js --filter="^greenkeeper/"
